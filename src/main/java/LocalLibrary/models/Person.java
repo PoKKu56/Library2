@@ -30,6 +30,8 @@ public class Person {
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     List<Book> books = new ArrayList<>();
 
+
+
     public List<Book> getBooks() {
         return books;
     }
@@ -37,6 +39,7 @@ public class Person {
     public void setBooks(List<Book> books) {
         this.books = books;
     }
+
 
     // Конструктор по умолчанию нужен для Spring
     public Person() {

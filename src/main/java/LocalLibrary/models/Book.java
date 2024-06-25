@@ -6,6 +6,9 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "Book")
@@ -30,9 +33,18 @@ public class Book {
     @Column(name = "year")
     private int year;
 
+    @Column(name = "date_of_take")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date date_of_take;
+
+    @Transient
+    private boolean expired;
+
     @ManyToOne()
     @JoinColumn(name = "person_id")
     private Person owner;
+
 
     public Person getOwner() {
         return owner;
@@ -82,5 +94,21 @@ public class Book {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public Date getDate_of_take() {
+        return date_of_take;
+    }
+
+    public void setDate_of_take(Date date_of_take) {
+        this.date_of_take = date_of_take;
+    }
+
+    public boolean isExpired() {
+        return expired;
+    }
+
+    public void setExpired(boolean expired) {
+        this.expired = expired;
     }
 }
