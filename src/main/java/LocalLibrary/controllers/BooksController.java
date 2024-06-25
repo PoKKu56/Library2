@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import java.util.Optional;
 
 @Controller
@@ -88,6 +90,19 @@ public class BooksController {
         booksService.assignBook(id, selectedPerson);
         return "redirect:/books/" + id;
     }
+
+    @GetMapping("/search")
+    public String search() {
+        return "books/search";
+    }
+
+    @PostMapping("/search")
+    public String searchBook(@RequestParam(value = "title") String titleStartWith, Model model) {
+        List<Book> books = booksService.searchBooksByTitle(titleStartWith);
+        model.addAttribute("books", books);
+        return "books/search";
+    }
+
 
 
 }

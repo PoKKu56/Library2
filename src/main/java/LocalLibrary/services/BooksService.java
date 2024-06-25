@@ -27,6 +27,10 @@ public class BooksService {
         return booksRepository.findAll(PageRequest.of(page, booksPerPage, Sort.by("year"))).getContent();
     }
 
+    public List<Book> showAllBooks() {
+        return booksRepository.findAll();
+    }
+
     public Book findById(int id) {
         Optional<Book> book = booksRepository.findById(id);
 
@@ -64,6 +68,10 @@ public class BooksService {
 
     public Person getOwner(int id){
         return this.findById(id).getOwner();
+    }
+
+    public List<Book> searchBooksByTitle(String startsWith){
+        return booksRepository.findByTitleStartingWith(startsWith);
     }
 
 }
