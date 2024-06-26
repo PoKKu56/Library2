@@ -38,15 +38,18 @@ public class BooksController {
 
     @GetMapping("/{id}")
     public String getBook(Model model, @PathVariable("id") int id, @ModelAttribute("person") Person person) {
-        model.addAttribute("book", booksService.findById(id));
 
-        Person owner = booksService.getOwner(id);
+        Optional<Book> book = booksService.findById(id);
 
-        if (owner != null) {
-            model.addAttribute("owner", owner);
-        }
-        else{
-            model.addAttribute("people", peopleService.getAllPeople());
+        if (book.isPresent()) {
+            model.addAttribute("book", book.get());
+
+            if (book.get().getOwner() != null) {
+                model.addAttribute("owner", book.get().getOwner());
+            }
+            else{
+                model.addAttribute("people", peopleService.getAllPeople());
+            }
         }
         return "books/show";
     }

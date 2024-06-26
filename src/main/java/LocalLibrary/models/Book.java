@@ -36,7 +36,7 @@ public class Book {
     @Column(name = "date_of_take")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date date_of_take;
+    private Date dateOfTake;
 
     @Transient
     private boolean expired;
@@ -96,12 +96,12 @@ public class Book {
         this.year = year;
     }
 
-    public Date getDate_of_take() {
-        return date_of_take;
+    public Date getDateOfTake() {
+        return dateOfTake;
     }
 
-    public void setDate_of_take(Date date_of_take) {
-        this.date_of_take = date_of_take;
+    public void setDateOfTake(Date dateOfTake) {
+        this.dateOfTake = dateOfTake;
     }
 
     public boolean isExpired() {

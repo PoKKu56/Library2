@@ -59,7 +59,7 @@ public class PeopleService {
             Hibernate.initialize(foundPerson.get().getBooks());
 
             foundPerson.get().getBooks().forEach(book -> {
-                long diffInMillies = Math.abs(book.getDate_of_take().getTime() - new Date().getTime());
+                long diffInMillies = Math.abs(book.getDateOfTake().getTime() - new Date().getTime());
                 // 864000000 милисекунд = 10 суток
                 if (diffInMillies > 864000000)
                     book.setExpired(true); // книга просрочена

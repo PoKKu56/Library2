@@ -3,7 +3,6 @@ package LocalLibrary.services;
 import LocalLibrary.models.Book;
 import LocalLibrary.models.Person;
 import LocalLibrary.repositories.BooksRepository;
-import LocalLibrary.repositories.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -33,10 +32,8 @@ public class BooksService {
         return booksRepository.findAll();
     }
 
-    public Book findById(int id) {
-        Optional<Book> book = booksRepository.findById(id);
-
-        return book.orElse(null);
+    public Optional<Book> findById(int id) {
+        return booksRepository.findById(id);
     }
 
     @Transactional
@@ -57,22 +54,30 @@ public class BooksService {
 
     @Transactional
     public void releaseBook(Integer id){
-        Book book = findById(id);
-        book.setOwner(null);
-        book.setDate_of_take(null);
-        booksRepository.save(book);
+        Optional<Book> book = findById(id);
+        if (book.isPresent()) {
+            book.get().setOwner(null);
+            book.get().setDateOfTake(null);
+            booksRepository.save(book.get());
+        }
     }
 
     @Transactional
     public void assignBook(int id, Person person){
-        Book assignedBook = findById(id);
-        assignedBook.setOwner(person);
-        assignedBook.setDate_of_take(new Date());
-        booksRepository.save(assignedBook);
+        Optional<Book> assignedBook = findById(id);
+        if (assignedBook.isPresent()) {
+            assignedBook.get().setOwner(person);
+            assignedBook.get().setDateOfTake(new Date());
+            booksRepository.save(assignedBook.get());
+        }
     }
 
     public Person getOwner(int id){
-        return this.findById(id).getOwner();
+        Optional<Book> book = findById(id);
+        if (book.isPresent()) {
+            return book.get().getOwner();
+        }
+        return null;
     }
 
     public List<Book> searchBooksByTitle(String startsWith){
